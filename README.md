@@ -9,6 +9,7 @@ Website for the Kanazawa Umar bin Al-Khattab Mosque — a lightweight, fast SPA 
 - **TailwindCSS 3** — styling
 - **Marked.js** — Markdown rendering
 - **Aladhan API** — live prayer times (Kanazawa coordinates)
+- **@libsql/client** — SQLite (local dev) / Turso (production) for prayer registrations
 
 ## Features
 
@@ -16,7 +17,7 @@ Website for the Kanazawa Umar bin Al-Khattab Mosque — a lightweight, fast SPA 
 - Live prayer times from Aladhan API
 - Markdown-based content system (news & events)
 - Google Maps directions link
-- Fully static — deployable to any CDN
+- Prayer registration system for Eid and other events
 
 ## Getting Started
 
@@ -39,37 +40,43 @@ bun run preview
 
 ```
 kanazawa-masjid/
-├── public/
-│   └── content/
-│       ├── news/           # News articles (.md) + index.json
-│       └── events/         # Event articles (.md) + index.json
+├── netlify/
+│   └── functions/
+│       └── register.mjs    # Registration API (Netlify Function)
 ├── src/
-│   ├── components/         # Navbar, Footer, PrayerTimes
+│   ├── components/         # Navbar, Footer, PrayerTimes, etc.
+│   ├── config/
+│   │   ├── contact.js      # Mosque contact details & WhatsApp links
+│   │   └── registrationEvents.js  # Eid registration event configs
 │   ├── contexts/           # LanguageContext (EN/ID i18n)
 │   ├── i18n/               # translations.js
-│   ├── pages/              # Home, News, NewsDetail, Contact
+│   ├── pages/              # Home, News, Events, Contact, Registration
+│   ├── content/
+│   │   ├── news/           # News articles (.md) + index.json
+│   │   └── events/         # Event articles (.md) + index.json
 │   └── utils/              # markdown.js helpers
 ├── index.html
-├── vite.config.js
+├── vite.config.js          # Also serves /api/register locally in dev
 ├── tailwind.config.js
 └── netlify.toml
 ```
 
-## Adding News
+## Adding News or Events
 
-1. Create `public/content/news/your-article.md` with frontmatter:
+1. Create `src/content/news/your-article.md` with frontmatter:
 
    ```markdown
    ---
    title: Your Article Title
    date: 2026-03-15
    author: Author Name
+   excerpt: Short summary shown on the list.
    ---
 
    Article content in Markdown...
    ```
 
-2. Add an entry to `public/content/news/index.json`:
+2. Add an entry to `src/content/news/index.json`:
 
    ```json
    {
@@ -87,14 +94,79 @@ kanazawa-masjid/
 
 | Path | Page |
 |------|------|
-| `/` | Home (hero, latest news, prayer times) |
-| `/berita` | News list |
-| `/berita/:slug` | News article |
-| `/kontak` | Contact & map |
+| `/` | Home (hero, Eid banner, latest news, prayer times) |
+| `/news` | News list |
+| `/news/:slug` | News article |
+| `/events` | Events list |
+| `/events/:slug` | Event detail |
+| `/contact` | Contact & map |
+| `/register/:eventId` | Prayer registration form |
+
+---
+
+## Prayer Registration System
+
+### How it works
+
+| Concern | Detail |
+|---|---|
+| Route | `/register/:eventId` → `src/pages/Registration.jsx` |
+| API (dev) | Vite dev plugin in `vite.config.js` handles `/api/register` locally |
+| API (prod) | Netlify Function at `netlify/functions/register.mjs` |
+| Database (dev) | Local SQLite file `local.db` (created automatically on first request) |
+| Database (prod) | Turso remote LibSQL (`TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN`) |
+
+The `registrations` table stores an `event_id` column so each event's data is fully isolated. A duplicate-name check is scoped per event — the same name can register for Eid Al-Fitr and Eid Al-Adha separately. Names are normalised before the check (lowercase, trim, collapse spaces, strip diacritics).
+
+### Environment variables
+
+Copy `.env.example` to `.env` and fill in:
+
+```env
+APP_ENV=dev                  # "dev" → local SQLite, anything else → Turso
+TURSO_DATABASE_URL=          # libsql://... (required in prod)
+TURSO_AUTH_TOKEN=            # JWT token (required in prod)
+```
+
+On Netlify, set `APP_ENV=prod` plus the Turso credentials in the **Site settings → Environment variables** dashboard.
+
+### Adding a new Eid registration event
+
+Only **one file** needs to change — `src/config/registrationEvents.js`:
+
+```js
+"eid-adha-1447": {
+  eventId: "eid-adha-1447",
+  title: "Eid Al-Adha 1447H Prayer Registration",
+  subtitle: "Please register your attendance for Eid Al-Adha 1447H prayer.",
+  seoDesc: "Register for Eid Al-Adha 1447H prayer at Kanazawa Umar bin Al-Khattab Mosque.",
+  sessions: [
+    { value: "1", time: "7:00 AM" },
+    { value: "2", time: "8:00 AM" },
+  ],
+},
+```
+
+Then link to `/register/eid-adha-1447` from the relevant news or event post. No code changes needed anywhere else.
+
+---
 
 ## Deployment
 
-The site is configured for Netlify with SPA redirect rules in `netlify.toml`. Connect the GitHub repo to Netlify and it will auto-deploy on every push to `main`.
+Netlify — configured in `netlify.toml`:
+- Build command: `bun run build`
+- Publish directory: `dist`
+- SPA redirect: `/* → /index.html`
+- Functions directory: `netlify/functions`
+- API routes: `/api/*` → `/.netlify/functions/:splat`
+
+Connect the GitHub repo to Netlify and it will auto-deploy on every push to `main`.
+
+## Git Workflow
+
+- Active development branch is `dev` — always commit and push to `dev`
+- `main` is protected; merge via PR from `dev`
+- Never push directly to `main`
 
 ## Location
 
