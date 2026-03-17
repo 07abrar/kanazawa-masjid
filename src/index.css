@@ -74,4 +74,28 @@
   .markdown-content hr {
     @apply border-gray-200 my-6;
   }
+
+  .markdown-content table {
+    @apply w-full border-collapse text-sm my-6 rounded-lg overflow-hidden shadow-sm;
+  }
+
+  .markdown-content thead {
+    @apply bg-primary-700 text-white;
+  }
+
+  .markdown-content thead th {
+    @apply px-4 py-3 text-left font-semibold tracking-wide;
+  }
+
+  .markdown-content tbody tr {
+    @apply border-b border-gray-100 even:bg-gray-50;
+  }
+
+  .markdown-content tbody tr:last-child {
+    @apply border-b-0;
+  }
+
+  .markdown-content tbody td {
+    @apply px-4 py-3 text-gray-700;
+  }
 }
