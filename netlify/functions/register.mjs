@@ -1,5 +1,8 @@
 import { createClient } from "@libsql/client";
 
+const SESSION_CACHE_TTL = 30_000; // 30 seconds
+const sessionCache = {}; // { [eventId]: { sessions, expiresAt } }
+
 function getClient() {
   if (process.env.APP_ENV === "dev") {
     return createClient({ url: "file:./local.db" });
@@ -32,6 +35,10 @@ export default async function handler(req, context) {
   if (req.method === "GET") {
     const url = new URL(req.url);
     const eventId = url.searchParams.get("event") || "";
+    const cached = sessionCache[eventId];
+    if (cached && Date.now() < cached.expiresAt) {
+      return json({ sessions: cached.sessions });
+    }
     try {
       const result = await client.execute({
         sql: "SELECT session, SUM(attendees) as total FROM registrations WHERE event_id = ? GROUP BY session",
@@ -41,6 +48,7 @@ export default async function handler(req, context) {
       for (const row of result.rows) {
         sessions[row.session] = Number(row.total);
       }
+      sessionCache[eventId] = { sessions, expiresAt: Date.now() + SESSION_CACHE_TTL };
       return json({ sessions });
     } catch {
       return json({ error: "Database error" }, 500);
@@ -90,6 +98,7 @@ export default async function handler(req, context) {
         sql: "INSERT INTO registrations (event_id, name, name_normalized, session, attendees, created_at) VALUES (?, ?, ?, ?, ?, ?)",
         args: [eventId.trim(), name.trim(), nameNormalized, Number(session), attendeesNum, new Date().toISOString()],
       });
+      delete sessionCache[eventId.trim()];
       return json({ success: true });
     } catch {
       return json({ error: "Failed to save registration" }, 500);
