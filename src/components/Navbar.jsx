@@ -1,10 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useLang } from "../contexts/LanguageContext";
+
+const FLAG_SRCS = {
+  en: 'https://flagcdn.com/w20/gb.png',
+  id: 'https://flagcdn.com/w20/id.png',
+  ja: 'https://flagcdn.com/w20/jp.png',
+}
+
+const LANGUAGES = [
+  { code: 'en', name: 'English' },
+  { code: 'id', name: 'Indonesia' },
+  { code: 'ja', name: '日本語' },
+]
 
 export default function Navbar() {
   const { t, lang, setLang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const navLinks = [
     { to: "/", label: t("nav.home") },
@@ -17,6 +30,17 @@ export default function Navbar() {
     `text-sm font-medium transition-colors ${
       isActive ? "text-primary-600" : "text-gray-700 hover:text-primary-600"
     }`;
+
+  const currentLang = LANGUAGES.find(l => l.code === lang) || LANGUAGES[0];
+
+  useEffect(() => {
+    if (!dropdownOpen) return
+    const handler = (e) => {
+      if (!e.target.closest('[data-lang-dropdown]')) setDropdownOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [dropdownOpen])
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
@@ -52,50 +76,66 @@ export default function Navbar() {
               </NavLink>
             ))}
 
-            {/* Language toggle */}
-            <div className="flex items-center rounded-lg border border-gray-200 overflow-hidden">
+            {/* Language dropdown */}
+            <div className="relative" data-lang-dropdown>
               <button
-                onClick={() => setLang("en")}
-                className={`px-3 py-1 text-xs font-semibold transition-colors ${
-                  lang === "en"
-                    ? "bg-primary-600 text-white"
-                    : "text-gray-600 hover:bg-gray-100"
-                }`}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors shadow-sm"
               >
-                EN
+                <img src={FLAG_SRCS[currentLang.code]} alt={currentLang.name} className="w-5 h-auto rounded-sm" />
+                <span>{currentLang.name}</span>
+                <svg className="h-3 w-3 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
-              <button
-                onClick={() => setLang("id")}
-                className={`px-3 py-1 text-xs font-semibold transition-colors ${
-                  lang === "id"
-                    ? "bg-primary-600 text-white"
-                    : "text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                ID
-              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-1 w-36 bg-white rounded-lg border border-gray-200 shadow-lg overflow-hidden z-50">
+                  {LANGUAGES.map(l => (
+                    <button
+                      key={l.code}
+                      onClick={() => { setLang(l.code); setDropdownOpen(false) }}
+                      className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-left transition-colors ${
+                        lang === l.code ? 'bg-primary-600 text-white' : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      <img src={FLAG_SRCS[l.code]} alt={l.name} className="w-5 h-auto rounded-sm" />
+                      <span>{l.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Mobile: lang toggle + hamburger */}
+          {/* Mobile: lang dropdown + hamburger */}
           <div className="flex md:hidden items-center gap-2">
-            <div className="flex items-center rounded-lg border border-gray-200 overflow-hidden">
+            <div className="relative" data-lang-dropdown>
               <button
-                onClick={() => setLang("en")}
-                className={`px-2 py-1 text-xs font-semibold transition-colors ${
-                  lang === "en" ? "bg-primary-600 text-white" : "text-gray-600"
-                }`}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors shadow-sm"
               >
-                EN
+                <img src={FLAG_SRCS[currentLang.code]} alt={currentLang.name} className="w-4 h-auto rounded-sm" />
+                <span>{currentLang.name}</span>
+                <svg className="h-3 w-3 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
-              <button
-                onClick={() => setLang("id")}
-                className={`px-2 py-1 text-xs font-semibold transition-colors ${
-                  lang === "id" ? "bg-primary-600 text-white" : "text-gray-600"
-                }`}
-              >
-                ID
-              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-1 w-32 bg-white rounded-lg border border-gray-200 shadow-lg overflow-hidden z-50">
+                  {LANGUAGES.map(l => (
+                    <button
+                      key={l.code}
+                      onClick={() => { setLang(l.code); setDropdownOpen(false) }}
+                      className={`w-full flex items-center gap-2 px-2 py-2 text-xs text-left transition-colors ${
+                        lang === l.code ? 'bg-primary-600 text-white' : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      <img src={FLAG_SRCS[l.code]} alt={l.name} className="w-4 h-auto rounded-sm" />
+                      <span>{l.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
