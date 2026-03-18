@@ -41,7 +41,13 @@ bun run preview    # Preview production build
 
 ## Deployment
 
-Netlify — configured in `netlify.toml` with `bun run build`, `BUN_VERSION = "latest"`, and a `/*` → `/index.html` SPA redirect rule.
+Netlify — configured in `netlify.toml` with the following:
+
+- `bun run build` as the build command, publishing `dist/`
+- `BUN_INSTALL_CACHE_DIR` set to cache Bun packages across builds
+- `/*` → `/index.html` SPA redirect rule
+- **Production builds** only trigger when files under `src/`, `netlify/`, `public/`, `package.json`, `bun.lockb`, or `netlify.toml` change — doc-only commits are skipped
+- **Branch deploys** (e.g. `dev`) and **deploy previews** (PRs) are disabled to save build credits
 
 <!-- rtk-instructions v2 -->
 # RTK (Rust Token Killer) - Token-Optimized Commands

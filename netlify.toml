@@ -4,6 +4,16 @@
 
 [build.environment]
   BUN_VERSION = "latest"
+  BUN_INSTALL_CACHE_DIR = "/opt/buildhome/.bun/install/cache"
+
+[context.production]
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- src/ netlify/ public/ package.json bun.lockb netlify.toml"
+
+[context.branch-deploy]
+  ignore = "exit 0"
+
+[context.deploy-preview]
+  ignore = "exit 0"
 
 [functions]
   directory = "netlify/functions"

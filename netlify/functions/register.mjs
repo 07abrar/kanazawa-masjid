@@ -1,6 +1,6 @@
 import { createClient } from "@libsql/client";
 
-const SESSION_CACHE_TTL = 30_000; // 30 seconds
+const SESSION_CACHE_TTL = 3_600_000; // 1 hour
 const sessionCache = {}; // { [eventId]: { sessions, expiresAt } }
 
 function getClient() {
