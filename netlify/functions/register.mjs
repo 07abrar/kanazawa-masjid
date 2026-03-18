@@ -19,7 +19,10 @@ function normalizeName(name) {
     .replace(/\s+/g, " ");
 }
 
+let tableReady = false;
+
 async function ensureTable(client) {
+  if (tableReady) return;
   await client.execute(`
     CREATE TABLE IF NOT EXISTS registrations (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,6 +41,7 @@ async function ensureTable(client) {
   ]) {
     try { await client.execute(col) } catch { /* already exists */ }
   }
+  tableReady = true;
 }
 
 function json(data, status = 200) {

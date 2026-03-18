@@ -14,6 +14,7 @@ function normalizeName(name) {
 
 function devApiPlugin(env) {
   let client
+  let tableReady = false
 
   function getClient() {
     if (!client) {
@@ -25,6 +26,7 @@ function devApiPlugin(env) {
   }
 
   async function ensureTable(db) {
+    if (tableReady) return
     await db.execute(`
       CREATE TABLE IF NOT EXISTS registrations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,6 +44,7 @@ function devApiPlugin(env) {
     ]) {
       try { await db.execute(col) } catch { /* already exists */ }
     }
+    tableReady = true
   }
 
   function send(res, data, status = 200) {
