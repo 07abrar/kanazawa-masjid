@@ -19,31 +19,6 @@ function normalizeName(name) {
     .replace(/\s+/g, " ");
 }
 
-let tableReady = false;
-
-async function ensureTable(client) {
-  if (tableReady) return;
-  await client.execute(`
-    CREATE TABLE IF NOT EXISTS registrations (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      event_id TEXT NOT NULL DEFAULT '',
-      name TEXT NOT NULL,
-      name_normalized TEXT NOT NULL DEFAULT '',
-      session INTEGER NOT NULL,
-      attendees INTEGER NOT NULL DEFAULT 1,
-      created_at TEXT NOT NULL
-    )
-  `);
-  // Migrate existing tables that lack newer columns
-  for (const col of [
-    "ALTER TABLE registrations ADD COLUMN event_id TEXT NOT NULL DEFAULT ''",
-    "ALTER TABLE registrations ADD COLUMN name_normalized TEXT NOT NULL DEFAULT ''",
-  ]) {
-    try { await client.execute(col) } catch { /* already exists */ }
-  }
-  tableReady = true;
-}
-
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -53,12 +28,6 @@ function json(data, status = 200) {
 
 export default async function handler(req, context) {
   const client = getClient();
-
-  try {
-    await ensureTable(client);
-  } catch {
-    return json({ error: "Database error" }, 500);
-  }
 
   if (req.method === "GET") {
     const url = new URL(req.url);

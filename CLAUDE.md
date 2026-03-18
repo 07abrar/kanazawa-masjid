@@ -29,6 +29,10 @@ bun run preview    # Preview production build
 
 **SEO** — `src/hooks/useSEO.js` exports `useSEO(title, description)` (sets `document.title` and meta description) and `stripHtml(html)` (produces a plain-text excerpt ≤160 chars). Call `useSEO` at the top of every page component.
 
+**Registration system** — `/register/:eventId` is a form page backed by a Netlify serverless function at `netlify/functions/register.mjs`. Event configs (title, sessions, SEO) live in `src/config/registrationEvents.js` — add a new entry there to enable registration for a new event. The function uses `@libsql/client`: locally it reads `APP_ENV=dev` and writes to `./local.db` (SQLite); in production it connects to Turso via `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN` env vars. Duplicate detection is done by normalising names (lowercase, strip diacritics, collapse spaces).
+
+**Database migrations** — schema changes live in `scripts/migrate-db.mjs` as an ordered `MIGRATIONS` array. Applied versions are tracked in a `schema_migrations` table so each migration only runs once. `bun run migrate` runs the script; `bun run build` calls it automatically. The script is a no-op unless `RUN_MIGRATIONS=true` is set in the environment — set this in Netlify env vars before a deploy that needs schema changes, then unset it afterwards. To add a new migration, append to the `MIGRATIONS` array with a unique `version` string; never edit or reorder existing entries.
+
 ## Git Workflow
 
 - Active development branch is `dev` — always commit and push to `dev`

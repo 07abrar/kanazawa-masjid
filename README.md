@@ -126,9 +126,29 @@ Copy `.env.example` to `.env` and fill in:
 APP_ENV=dev                  # "dev" → local SQLite, anything else → Turso
 TURSO_DATABASE_URL=          # libsql://... (required in prod)
 TURSO_AUTH_TOKEN=            # JWT token (required in prod)
+RUN_MIGRATIONS=false         # set to "true" only when a deploy needs schema changes
 ```
 
 On Netlify, set `APP_ENV=prod` plus the Turso credentials in the **Site settings → Environment variables** dashboard.
+
+### Database migrations
+
+Schema changes are handled by `scripts/migrate-db.mjs` — a versioned migration runner that tracks applied versions in a `schema_migrations` table, so each migration only ever runs once.
+
+`bun run migrate` runs the script directly. `bun run build` calls it automatically, but it is a **no-op** unless `RUN_MIGRATIONS=true`.
+
+**Workflow for schema changes:**
+
+1. Add a new entry to the `MIGRATIONS` array in `scripts/migrate-db.mjs` with a unique `version` string
+2. Set `RUN_MIGRATIONS=true` in Netlify env vars
+3. Deploy — the migration runs once during the build
+4. Set `RUN_MIGRATIONS=false` (or unset it) so subsequent deploys skip it
+
+To run a migration locally against the local SQLite file:
+
+```bash
+APP_ENV=dev RUN_MIGRATIONS=true bun run migrate
+```
 
 ### Adding a new Eid registration event
 
@@ -154,7 +174,7 @@ Then link to `/register/eid-adha-1447` from the relevant news or event post. No 
 ## Deployment
 
 Netlify — configured in `netlify.toml`:
-- Build command: `bun run build`
+- Build command: `bun run build` (runs `bun run migrate` first, no-op unless `RUN_MIGRATIONS=true`)
 - Publish directory: `dist`
 - SPA redirect: `/* → /index.html`
 - Functions directory: `netlify/functions`
