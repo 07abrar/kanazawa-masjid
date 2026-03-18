@@ -179,6 +179,9 @@ Netlify — configured in `netlify.toml`:
 - SPA redirect: `/* → /index.html`
 - Functions directory: `netlify/functions`
 - API routes: `/api/*` → `/.netlify/functions/:splat`
+- Bun package cache enabled via `BUN_INSTALL_CACHE_DIR`
+- **Branch deploys** and **deploy previews** are disabled to save build credits
+- **Production builds** are skipped when only non-code files change (docs, config)
 
 Connect the GitHub repo to Netlify and it will auto-deploy on every push to `main`.
 
