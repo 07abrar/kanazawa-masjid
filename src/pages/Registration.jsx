@@ -135,6 +135,15 @@ export default function Registration() {
             <legend className="block text-sm font-medium text-gray-700 mb-2">
               {t("registration.sessionLabel")}
             </legend>
+            {sessionCounts === null && (
+              <div className="flex items-center gap-2 text-sm text-gray-500 py-1">
+                <svg className="animate-spin h-4 w-4 text-primary-500 shrink-0" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+                {t("registration.loadingCounts")}
+              </div>
+            )}
             <div className="space-y-2">
               {sessions.map((s) => {
                 const count = sessionCounts !== null ? (sessionCounts[s.value] ?? 0) : null;
