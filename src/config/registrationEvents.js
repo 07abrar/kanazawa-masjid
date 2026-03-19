@@ -13,9 +13,9 @@ export const REGISTRATION_EVENTS = {
     eventId: "eid-fitr-1447",
     title: "Eid Al-Fitr 1447H Prayer Registration",
     subtitle:
-      "Please register your attendance for Eid Al-Fitr 1447H prayer. This helps us prepare the space for each session.",
+      "Eid Al-Fitr 1447H is confirmed on Saturday, 21st March 2026. Please register your attendance to help us prepare the space for each session.",
     seoDesc:
-      "Register for Eid Al-Fitr 1447H prayer at Kanazawa Umar bin Al-Khattab Mosque. Choose from three sessions at 6:30, 7:30, or 8:30 AM.",
+      "Register for Eid Al-Fitr 1447H prayer on Saturday, 21st March 2026 at Kanazawa Umar bin Al-Khattab Mosque. Choose from three sessions at 6:30, 7:30, or 8:30 AM.",
     sessions: [
       { value: "1", time: "6:30 AM" },
       { value: "2", time: "7:30 AM" },
