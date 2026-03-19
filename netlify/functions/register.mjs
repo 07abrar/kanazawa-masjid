@@ -1,7 +1,14 @@
 import { createClient } from "@libsql/client";
 
-const SESSION_CACHE_TTL = 3_600_000; // 1 hour
+const SESSION_CACHE_TTL = 6 * 3_600_000; // 6 hours
 const sessionCache = {}; // { [eventId]: { sessions, expiresAt } }
+
+// After these timestamps, session counts are frozen: no more DB queries on GET
+// and POST registrations no longer invalidate the cache.
+// Set per event to 6 hours after the last prayer session ends.
+const EVENT_FREEZE_AT = {
+  "eid-fitr-1447": new Date("2026-03-21T05:30:00Z").getTime(), // 6h after 8:30 AM JST (last session)
+};
 
 function getClient() {
   if (process.env.APP_ENV === "dev") {
@@ -36,7 +43,8 @@ export default async function handler(req, context) {
     const url = new URL(req.url);
     const eventId = url.searchParams.get("event") || "";
     const cached = sessionCache[eventId];
-    if (cached && Date.now() < cached.expiresAt) {
+    const frozen = EVENT_FREEZE_AT[eventId] && Date.now() >= EVENT_FREEZE_AT[eventId];
+    if (cached && (frozen || Date.now() < cached.expiresAt)) {
       return json({ sessions: cached.sessions });
     }
     try {
@@ -98,7 +106,8 @@ export default async function handler(req, context) {
         sql: "INSERT INTO registrations (event_id, name, name_normalized, session, attendees, created_at) VALUES (?, ?, ?, ?, ?, ?)",
         args: [eventId.trim(), name.trim(), nameNormalized, Number(session), attendeesNum, new Date().toISOString()],
       });
-      delete sessionCache[eventId.trim()];
+      const frozenPost = EVENT_FREEZE_AT[eventId.trim()] && Date.now() >= EVENT_FREEZE_AT[eventId.trim()];
+      if (!frozenPost) delete sessionCache[eventId.trim()];
       return json({ success: true });
     } catch {
       return json({ error: "Failed to save registration" }, 500);
