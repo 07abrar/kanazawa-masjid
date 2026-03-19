@@ -35,6 +35,12 @@ To help us plan the space and prepare for each session, **we kindly ask all atte
 
 Registration takes less than a minute. Please indicate the number of people in your group and your preferred session.
 
+## Additional Notes
+
+- Since a large number of worshippers are expected, please **perform wudu (ablution) before leaving home**. After the prayer, kindly leave the mosque promptly to make room for the next session and avoid congestion that may disturb the surrounding neighbourhood.
+- It is also recommended to **have breakfast before the prayer** — you'll feel more energised! 😄
+- **Buses may be full** on the day. If you are travelling in a group, consider sharing a taxi as an alternative.
+
 ## Getting There by Bus
 
 For those travelling from **Kanazawa Station**, take the **Hokutetsu Bus (北鉄バス)** from **East Exit Gate 8 (東口 8番)** towards Wakamatsu (若松). The fare is ¥330 with no transfers required.
