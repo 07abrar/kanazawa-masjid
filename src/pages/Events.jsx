@@ -3,10 +3,9 @@ import { useLang } from "../contexts/LanguageContext";
 import { loadContentList, formatDate } from "../utils/markdown";
 import { useSEO } from "../hooks/useSEO";
 
-const items = loadContentList("events");
-
 export default function Events() {
   const { t, lang } = useLang();
+  const items = loadContentList("events", lang);
   useSEO(
     "Upcoming Events",
     "Browse upcoming events at Kanazawa Umar bin Al-Khattab Mosque.",

@@ -15,13 +15,13 @@ export default function NewsDetail() {
 
   useEffect(() => {
     try {
-      setArticle(loadMarkdown("news", slug));
+      setArticle(loadMarkdown("news", slug, lang));
       setError(false);
     } catch {
       setError(true);
       setArticle(null);
     }
-  }, [slug]);
+  }, [slug, lang]);
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
