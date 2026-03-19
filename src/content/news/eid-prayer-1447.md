@@ -1,15 +1,13 @@
 ---
 title: Eid Al-Fitr 1447H Prayer Announcement
-date: 2026-03-18
+date: 2026-03-19
 author: Mosque Committee
-excerpt: Eid Al-Fitr 1447H prayer will be held in three sessions at 6:30 AM, 7:30 AM, and 8:30 AM. Please register in advance so we can prepare the space accordingly.
+excerpt: Eid Al-Fitr 1447H has been confirmed on Saturday, 21st March 2026. Prayer will be held in three sessions at 6:30 AM, 7:30 AM, and 8:30 AM. Please register in advance so we can prepare the space accordingly.
 ---
 
 Assalamu Alaikum wa Rahmatullahi wa Barakatuh,
 
-Alhamdulillah, as the blessed month of Ramadan draws to a close, we are pleased to announce the Eid Al-Fitr 1447H prayer arrangements at **Kanazawa Umar bin Al-Khattab Mosque**.
-
-> **Note:** The exact date of Eid Al-Fitr is pending the result of rukyatul hilal (moon sighting). Please follow the announcement from the [Ruyat Hilal Committee Japan](/news/1447-rukyatul-hilal).
+Alhamdulillah, we are pleased to announce that **Eid Al-Fitr 1447H has been confirmed on Saturday, 21st March 2026**. Eid prayer will be held at **Kanazawa Umar bin Al-Khattab Mosque**.
 
 ## Prayer Sessions
 
@@ -36,6 +34,20 @@ To help us plan the space and prepare for each session, **we kindly ask all atte
 [Register here](/register/eid-fitr-1447)
 
 Registration takes less than a minute. Please indicate the number of people in your group and your preferred session.
+
+## Getting There by Bus
+
+For those travelling from **Kanazawa Station**, take the **Hokutetsu Bus (北鉄バス)** from **East Exit Gate 8 (東口 8番)** towards Wakamatsu (若松). The fare is ¥330 with no transfers required.
+
+The following buses on Saturday morning (21st March) are relevant for Eid prayer:
+
+| Departs Kanazawa Station | Arrives Wakamatsu | Direction |
+|--------------------------|-------------------|-----------|
+| **07:27** | 07:55 | C — via Wakamatsu West (若松西から) |
+| **07:52** | 08:17 | A — Tagami direction (田上方向) |
+| **08:07** | 08:32 | A — Tagami direction (田上方向) |
+
+> **Note for Session 1 (6:30 AM):** The earliest bus above arrives after the session starts. If you are attending Session 1, please arrange your own transport or walk from a closer point.
 
 ## Location
 
