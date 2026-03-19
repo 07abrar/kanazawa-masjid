@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "slug": "1447-itikaf",
+      "title": "I'tikaf Malam Ramadan 1447H",
+      "date": "2026-03-12",
+      "author": "Panitia Masjid",
+      "excerpt": "Bergabunglah bersama kami untuk I'tikaf — retreat spiritual semalam di masjid selama malam-malam terakhir Ramadan 1447H. Terbuka untuk seluruh saudara laki-laki.",
+      "image": "/images/events/1447-itikaf.jpeg"
+    },
+    {
+      "slug": "ramadan-iftar-1447",
+      "title": "Buka Puasa Bersama Ramadan 1447H",
+      "date": "2026-03-06",
+      "author": "Panitia Masjid",
+      "excerpt": "Bergabunglah bersama kami untuk makan malam buka puasa komunitas di bulan Ramadan yang penuh berkah. Seluruh Muslim dan keluarga mereka dengan hangat dipersilakan untuk berbuka bersama di masjid.",
+      "image": "/images/events/ramadan-iftar-1447.jpg"
+    }
+  ]
+}

@@ -15,13 +15,13 @@ export default function EventDetail() {
 
   useEffect(() => {
     try {
-      setEvent(loadMarkdown("events", slug));
+      setEvent(loadMarkdown("events", slug, lang));
       setError(false);
     } catch {
       setError(true);
       setEvent(null);
     }
-  }, [slug]);
+  }, [slug, lang]);
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">

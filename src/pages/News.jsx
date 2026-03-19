@@ -3,10 +3,9 @@ import { useLang } from "../contexts/LanguageContext";
 import { loadContentList, formatDate } from "../utils/markdown";
 import { useSEO } from "../hooks/useSEO";
 
-const items = loadContentList("news");
-
 export default function News() {
   const { t, lang } = useLang();
+  const items = loadContentList("news", lang);
   useSEO(
     "News",
     "Latest news and updates from Kanazawa Umar bin Al-Khattab Mosque.",

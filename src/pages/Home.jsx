@@ -5,8 +5,6 @@ import { loadContentList, formatDate } from "../utils/markdown";
 import { useSEO } from "../hooks/useSEO";
 import { CONTACT } from "../config/contact";
 
-const newsItems = loadContentList("news").slice(0, 3);
-const eventItems = loadContentList("events").slice(0, 3);
 
 const SCHEDULE = [
   { day: "Friday", activity: "Jumu'ah Prayer", time: "12:30" },
@@ -17,6 +15,8 @@ const SCHEDULE = [
 
 export default function Home() {
   const { t, lang } = useLang();
+  const newsItems = loadContentList("news", lang).slice(0, 3);
+  const eventItems = loadContentList("events", lang).slice(0, 3);
   useSEO(
     null,
     "A place of worship and community for Muslims in Kanazawa, Ishikawa, Japan.",

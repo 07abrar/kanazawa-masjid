@@ -4,6 +4,9 @@ import { marked } from 'marked'
 const markdownFiles = import.meta.glob('../content/**/*.md', { query: '?raw', import: 'default', eager: true })
 const indexFiles = import.meta.glob('../content/**/index.json', { eager: true })
 
+// Map UI language code → content subfolder name
+const LANG_FOLDER = { id: 'id', ja: 'jp' }
+
 const EN_MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
@@ -16,9 +19,8 @@ const ID_MONTHS = [
 
 export function formatDate(dateString, lang = 'en') {
   const [year, month, day] = dateString.split('-').map(Number)
-  if (lang === 'id') {
-    return `${day} ${ID_MONTHS[month - 1]} ${year}`
-  }
+  if (lang === 'ja') return `${year}年${month}月${day}日`
+  if (lang === 'id') return `${day} ${ID_MONTHS[month - 1]} ${year}`
   return `${EN_MONTHS[month - 1]} ${day}, ${year}`
 }
 
@@ -46,18 +48,32 @@ export function parseFrontmatter(raw) {
   return { frontmatter, content: match[2].trim() }
 }
 
-export function loadContentList(type) {
+export function loadContentList(type, lang = 'en') {
+  const folder = LANG_FOLDER[lang]
+  if (folder) {
+    const localKey = `../content/${type}/${folder}/index.json`
+    const localMod = indexFiles[localKey]
+    if (localMod) return localMod.default.items
+  }
   const key = `../content/${type}/index.json`
   const mod = indexFiles[key]
   if (!mod) return []
   return mod.default.items
 }
 
-export function loadMarkdown(type, slug) {
+export function loadMarkdown(type, slug, lang = 'en') {
+  const folder = LANG_FOLDER[lang]
+  if (folder) {
+    const localKey = `../content/${type}/${folder}/${slug}.md`
+    const localRaw = markdownFiles[localKey]
+    if (localRaw) {
+      const { frontmatter, content } = parseFrontmatter(localRaw)
+      return { frontmatter, content, html: marked.parse(content) }
+    }
+  }
   const key = `../content/${type}/${slug}.md`
   const raw = markdownFiles[key]
   if (!raw) throw new Error(`Content not found: ${type}/${slug}`)
   const { frontmatter, content } = parseFrontmatter(raw)
-  const html = marked.parse(content)
-  return { frontmatter, content, html }
+  return { frontmatter, content, html: marked.parse(content) }
 }
