@@ -3,7 +3,11 @@
     "allow": [
       "Bash(bun run:*)",
       "Bash(xargs ls:*)",
-      "Bash(xargs file:*)"
+      "Bash(xargs file:*)",
+      "Bash(rtk git:*)",
+      "Bash(rtk ls:*)",
+      "Bash(rtk next:*)",
+      "Bash(rtk bun:*)"
     ]
   }
 }

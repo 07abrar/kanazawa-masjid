@@ -8,7 +8,6 @@ import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
 import Contact from "./pages/Contact";
 import Registration from "./pages/Registration";
-
 const router = createBrowserRouter([
   {
     path: "/",
