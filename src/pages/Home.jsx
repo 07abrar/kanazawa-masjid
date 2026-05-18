@@ -6,6 +6,21 @@ import { useSEO } from "../hooks/useSEO";
 import { CONTACT } from "../config/contact";
 
 
+const RULE_ICONS = [
+  /* 1. Keep It Clean — broom */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21l7-7"/><path d="M12.5 8.5l3-3a2.121 2.121 0 013 3l-7 7-4-4 2-2z"/><path d="M8 16l-5 5"/></svg>,
+  /* 2. Park Considerately — car */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="10" width="20" height="8" rx="2"/><path d="M6 18v2M18 18v2M2 14h20"/><path d="M6 10l2-4h8l2 4"/></svg>,
+  /* 3. Children Are Precious — people */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="6" r="2"/><circle cx="16" cy="8" r="1.5"/><path d="M6 21v-3a3 3 0 013-3h3a3 3 0 013 3v3"/><path d="M18 21v-2a2.5 2.5 0 00-2-2.45"/></svg>,
+  /* 4. Maintain Silence — phone muted */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 005.12 2.12M15 9.34V4a3 3 0 00-5.94-.6"/><path d="M17 16.95A7 7 0 015 12v-2m14 0v2a7 7 0 01-.11 1.23"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>,
+  /* 5. Respect the Masjid — open book */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>,
+  /* 6. Keep It Dry — droplet */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C6 9 4 13 4 16a8 8 0 0016 0c0-3-2-7-8-14z"/></svg>,
+];
+
 const SCHEDULE = [
   { day: "Friday", activity: "Jumu'ah Prayer", time: "12:30" },
   { day: "Sunday", activity: "Islamic Study Circle", time: "10:00" },
@@ -60,7 +75,7 @@ export default function Home() {
             <p className="text-amber-100 text-sm">{t("eidBanner.desc")}</p>
           </div>
           <Link
-            to="/register/eid-fitr-1447"
+            to="/register/eid-adha-1447"
             className="shrink-0 bg-white text-orange-600 font-bold px-7 py-3 rounded-xl shadow-md hover:bg-amber-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-150 flex items-center gap-2 text-base"
           >
             {t("eidBanner.cta")}
@@ -69,6 +84,28 @@ export default function Home() {
             </svg>
           </Link>
         </div>
+      </section>
+
+      {/* Mosque Rules */}
+      <section id="mosque-rules" className="max-w-6xl mx-auto px-4 py-12">
+        <div className="text-center mb-8">
+          <h2 className="section-title mb-2">{t("mosqueRules.pageTitle")}</h2>
+          <p className="text-gray-500">{t("mosqueRules.intro")}</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {t("mosqueRules.rules").map((rule, i) => (
+            <div key={i} className="card flex items-start gap-4">
+              <span className="shrink-0 w-9 h-9 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center">
+                <span className="w-5 h-5">{RULE_ICONS[i]}</span>
+              </span>
+              <div>
+                <h3 className="font-bold text-gray-900 mb-1">{rule.title}</h3>
+                <p className="text-sm text-gray-600">{rule.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-primary-600 font-semibold mt-6">{t("mosqueRules.jazakum")}</p>
       </section>
 
       {/* Latest News */}

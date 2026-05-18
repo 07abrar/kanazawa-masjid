@@ -50,7 +50,7 @@ Each `index.json` lists items with `slug`, `title`, `date`, `author`, `excerpt` 
 
 **Dev API proxy** — `vite.config.js` includes a custom `dev-api` Vite plugin that intercepts `/api/register` GET and POST requests during `bun run dev`, running the same logic as the Netlify function against the local SQLite DB. No separate server needed.
 
-**Home page hardcoded content** — the regular activity schedule (`SCHEDULE` array) and the Eid registration banner (linking to `/register/eid-fitr-1447`) are both hardcoded in `src/pages/Home.jsx`. The banner text is in `translations.js` under `eidBanner`; the schedule is not localized.
+**Home page hardcoded content** — the regular activity schedule (`SCHEDULE` array) and the Eid registration banner (linking to `/register/eid-adha-1447`) are both hardcoded in `src/pages/Home.jsx`. The banner text is in `translations.js` under `eidBanner`; the schedule is not localized.
 
 ## Git Workflow
 

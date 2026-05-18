@@ -9,6 +9,20 @@
  * seoDesc   — meta description for the page
  */
 export const REGISTRATION_EVENTS = {
+  "eid-adha-1447": {
+    eventId: "eid-adha-1447",
+    title: "Eid ul-Adha 1447H Prayer Registration",
+    subtitle:
+      "Eid ul-Adha 1447H is confirmed on Wednesday, 27th May 2026. Please register your attendance to help us prepare the space for each session.",
+    seoDesc:
+      "Register for Eid ul-Adha 1447H prayer on Wednesday, 27th May 2026 at Kanazawa Umar bin Al-Khattab Mosque. Choose from three sessions at 6:30, 7:30, or 8:30 AM.",
+    sessions: [
+      { value: "1", time: "6:30 AM" },
+      { value: "2", time: "7:30 AM" },
+      { value: "3", time: "8:30 AM" },
+    ],
+  },
+
   "eid-fitr-1447": {
     eventId: "eid-fitr-1447",
     title: "Eid Al-Fitr 1447H Prayer Registration",
@@ -22,17 +36,4 @@ export const REGISTRATION_EVENTS = {
       { value: "3", time: "8:30 AM" },
     ],
   },
-
-  // Template for future events — copy, uncomment, and fill in:
-  //
-  // "eid-adha-1446": {
-  //   eventId: "eid-adha-1446",
-  //   title: "Eid Al-Adha 1446H Prayer Registration",
-  //   subtitle: "...",
-  //   seoDesc: "...",
-  //   sessions: [
-  //     { value: "1", time: "7:00 AM" },
-  //     { value: "2", time: "8:00 AM" },
-  //   ],
-  // },
 };

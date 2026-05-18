@@ -67,9 +67,9 @@ export const translations = {
       contactUs: "Contact",
     },
     eidBanner: {
-      label: "Eid Al-Fitr 1447H · Saturday, 21 March 2026",
-      title: "Register for Eid Prayer",
-      desc: "Eid has been confirmed! Secure your spot in one of three sessions (6:30, 7:30, or 8:30 AM). Registration is quick and helps us prepare the space for everyone.",
+      label: "Eid ul-Adha 1447H · Wednesday, 27 May 2026",
+      title: "Register for Eid ul-Adha Prayer",
+      desc: "Eid ul-Adha has been confirmed! Secure your spot in one of three sessions (6:30, 7:30, or 8:30 AM). Registration is quick and helps us prepare the space for everyone.",
       cta: "Register Now",
     },
     footer: {
@@ -109,6 +109,20 @@ export const translations = {
     },
     loading: "Loading...",
     error: "Something went wrong.",
+    mosqueRules: {
+      pageTitle: "Mosque General Rules",
+      intro: "Please help us keep the mosque clean, peaceful, and respectful for everyone.",
+      closing: "Your kindness makes our mosque a better place for all.",
+      jazakum: "Jazakum Allahu Khairan.",
+      rules: [
+        { title: "Keep It Clean", desc: "Please keep the mosque clean and tidy." },
+        { title: "Park Considerately", desc: "Please park your car or bicycle without blocking others." },
+        { title: "Children Are Precious", desc: "Please supervise children at all times." },
+        { title: "Maintain Silence", desc: "Please keep your voice low and turn off mobile phones." },
+        { title: "Respect the Masjid", desc: "Please handle the Qur'an, books, and other items with care. Do not take anything without permission." },
+        { title: "Keep It Dry", desc: "Please keep the wudu area and toilet clean and dry." },
+      ],
+    },
   },
   id: {
     nav: {
@@ -178,9 +192,9 @@ export const translations = {
       contactUs: "Kontak",
     },
     eidBanner: {
-      label: "Eid Al-Fitr 1447H · Sabtu, 21 Maret 2026",
-      title: "Daftar Sholat Eid",
-      desc: "Eid telah dikonfirmasi! Amankan tempat Anda di salah satu dari tiga sesi (6:30, 7:30, atau 8:30 pagi). Pendaftaran cepat dan membantu kami mempersiapkan tempat.",
+      label: "Eid ul-Adha 1447H · Rabu, 27 Mei 2026",
+      title: "Daftar Sholat Eid ul-Adha",
+      desc: "Eid ul-Adha telah dikonfirmasi! Amankan tempat Anda di salah satu dari tiga sesi (6:30, 7:30, atau 8:30 pagi). Pendaftaran cepat dan membantu kami mempersiapkan tempat.",
       cta: "Daftar Sekarang",
     },
     footer: {
@@ -220,6 +234,20 @@ export const translations = {
     },
     loading: "Memuat...",
     error: "Terjadi kesalahan.",
+    mosqueRules: {
+      pageTitle: "Peraturan Umum Masjid",
+      intro: "Mohon bantu kami menjaga kebersihan, ketenangan, dan kehormatan masjid untuk semua orang.",
+      closing: "Kebaikan Anda menjadikan masjid ini tempat yang lebih baik untuk semua.",
+      jazakum: "Jazakum Allahu Khairan.",
+      rules: [
+        { title: "Jaga Kebersihan", desc: "Mohon jaga kebersihan dan kerapian masjid." },
+        { title: "Parkir dengan Tertib", desc: "Mohon parkir kendaraan atau sepeda tanpa menghalangi orang lain." },
+        { title: "Anak-Anak Adalah Amanah", desc: "Mohon awasi anak-anak setiap saat." },
+        { title: "Jaga Ketenangan", desc: "Mohon rendahkan suara dan matikan ponsel." },
+        { title: "Hormati Masjid", desc: "Mohon perlakukan Al-Qur'an, buku, dan barang lainnya dengan hati-hati. Jangan mengambil apapun tanpa izin." },
+        { title: "Jaga Tetap Kering", desc: "Mohon jaga area wudhu dan toilet tetap bersih dan kering setelah digunakan." },
+      ],
+    },
   },
   ja: {
     nav: {
@@ -289,9 +317,9 @@ export const translations = {
       contactUs: "お問い合わせ",
     },
     eidBanner: {
-      label: "イード・アル=フィトル 1447H · 2026年3月21日（土）",
-      title: "イード礼拝に登録",
-      desc: "イードが確定しました！3つのセッション（6:30、7:30、または8:30）のいずれかにご登録ください。登録は簡単で、スペースの準備に役立ちます。",
+      label: "イード・アル-アドハー 1447H · 2026年5月27日（水）",
+      title: "イード・アル-アドハー礼拝に登録",
+      desc: "イード・アル-アドハーが確定しました！3つのセッション（6:30、7:30、または8:30）のいずれかにご登録ください。登録は簡単で、スペースの準備に役立ちます。",
       cta: "今すぐ登録",
     },
     footer: {
@@ -331,5 +359,19 @@ export const translations = {
     },
     loading: "読み込み中...",
     error: "エラーが発生しました。",
+    mosqueRules: {
+      pageTitle: "モスク一般規則",
+      intro: "モスクを清潔で平和的、そして皆にとって敬意ある場所に保つためご協力をお願いします。",
+      closing: "皆様のご配慮がモスクをより良い場所にします。",
+      jazakum: "ジャザクム アッラーフ ハイラン。",
+      rules: [
+        { title: "清潔に保つ", desc: "モスクを常に清潔で整頓された状態に保ってください。" },
+        { title: "思いやりのある駐車", desc: "他の方の邪魔にならないよう、車や自転車を駐車してください。" },
+        { title: "子どもたちは大切な存在", desc: "常にお子様から目を離さないようにしてください。" },
+        { title: "静粛を保つ", desc: "声を低くし、携帯電話の電源をお切りください。" },
+        { title: "マスジドを敬う", desc: "クルアーン、書籍、その他の物品は丁寧に扱ってください。許可なく持ち出さないようにしてください。" },
+        { title: "乾燥した状態を保つ", desc: "使用後はウドゥーエリアとトイレを清潔で乾いた状態に保ってください。" },
+      ],
+    },
   },
 };
