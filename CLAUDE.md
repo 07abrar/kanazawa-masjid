@@ -9,7 +9,10 @@ bun install        # Install dependencies
 bun run dev        # Dev server at localhost:5173
 bun run build      # Production build → /dist
 bun run preview    # Preview production build
+bun run migrate    # Run DB migrations manually (requires APP_ENV=dev or Turso env vars)
 ```
+
+**Local dev env** — copy `.env.example` to `.env` and set `APP_ENV=dev`. This makes the registration API write to `./local.db` (SQLite) instead of Turso. Production needs `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN`.
 
 ## Architecture
 
@@ -17,21 +20,37 @@ bun run preview    # Preview production build
 
 **Routing** uses `createBrowserRouter` + `RouterProvider` (not `BrowserRouter`). Routes are defined in `src/App.jsx`. The shared shell (Navbar + Footer) lives in `src/components/Layout.jsx` and uses `<Outlet />`.
 
-**i18n** is a custom React Context (no library). `src/i18n/translations.js` holds all UI strings under `en` and `id` keys. `src/contexts/LanguageContext.jsx` exposes `useLang()` which returns `{ lang, setLang, t }`. The `t("dot.path")` helper resolves nested keys. Language is persisted to `localStorage` under `"kanazawa-lang"`, defaulting to `"en"`. All static content (news, events) is written in English only — i18n applies to UI chrome only.
+**i18n** is a custom React Context (no library). `src/i18n/translations.js` holds all UI strings under three keys: `en`, `id`, and `ja`. `src/contexts/LanguageContext.jsx` exposes `useLang()` which returns `{ lang, setLang, t }`. The `t("dot.path")` helper resolves nested keys; missing keys fall back to `en`, then to the raw key string. Language is persisted to `localStorage` under `"kanazawa-lang"`, defaulting to `"en"`.
 
-**Content** is Markdown files in `src/content/{news,events}/`. Each section has an `index.json` listing items with `slug`, `title`, `date`, `author`, `excerpt` (events also support an optional `image` field). The slug must match the `.md` filename. Files are bundled at build time via `import.meta.glob` — no runtime fetches. Each `.md` file uses YAML frontmatter (`---` fenced) with the same fields. `src/utils/markdown.js` provides `loadMarkdown(type, slug)`, `loadContentList(type)`, `parseFrontmatter()`, `formatDate(dateString, lang)`, and `slugify()`.
+**Content** lives in `src/content/{news,events}/` with language subfolders for `id` and `jp`:
+```
+src/content/news/
+  index.json        ← English (default)
+  id/index.json     ← Indonesian overrides
+  jp/index.json     ← Japanese overrides
+  <slug>.md
+  id/<slug>.md
+  jp/<slug>.md
+```
+Each `index.json` lists items with `slug`, `title`, `date`, `author`, `excerpt` (events also support `image`). The slug must match the `.md` filename. Files are bundled at build time via `import.meta.glob` — no runtime fetches. Each `.md` file uses YAML frontmatter (`---` fenced). `src/utils/markdown.js` provides `loadMarkdown(type, slug, lang)`, `loadContentList(type, lang)` (both look in the language subfolder first, falling back to the English root), `parseFrontmatter()`, `formatDate(dateString, lang)`, and `slugify()`.
 
-**Prayer times** are fetched live from the Aladhan API in `src/components/PrayerTimes.jsx` using Kanazawa coordinates (lat `36.5549`, lon `136.6956`).
+**Prayer times** are fetched live from the Aladhan API in `src/components/PrayerTimes.jsx` using Kanazawa coordinates (lat `36.5549`, lon `136.6956`, method `2` = ISNA).
 
 **Styling** uses Tailwind with a custom `primary` green palette (defined in `tailwind.config.js`). Shared utility classes `.card`, `.btn-primary`, `.section-title`, and `.markdown-content` (with full heading/list/blockquote styles) are defined as `@layer components` in `src/index.css`.
 
-**Shared config** — mosque contact details, coordinates, and WhatsApp links are centralised in `src/config/contact.js` (`CONTACT`). Import from there rather than hardcoding values.
+**Shared config** — `src/config/contact.js` exports `CONTACT` with: `name`, `address`, `lat`/`lon`, `phone`/`phoneTel`, `whatsapp`, `imam` (`{ name, phone, whatsapp }`), `mapsEmbedUrl`, and `mapsDirectionsUrl` (computed getter). Import from there rather than hardcoding values.
 
-**SEO** — `src/hooks/useSEO.js` exports `useSEO(title, description)` (sets `document.title` and meta description) and `stripHtml(html)` (produces a plain-text excerpt ≤160 chars). Call `useSEO` at the top of every page component.
+**SEO** — `src/hooks/useSEO.js` exports `useSEO(title, description)` and `stripHtml(html)` (plain-text excerpt ≤160 chars). The hook sets `document.title` to `"<title> — Kanazawa Masjid"` (null title → just `"Kanazawa Masjid"`). Call `useSEO` at the top of every page component.
 
-**Registration system** — `/register/:eventId` is a form page backed by a Netlify serverless function at `netlify/functions/register.mjs`. Event configs (title, sessions, SEO) live in `src/config/registrationEvents.js` — add a new entry there to enable registration for a new event. The function uses `@libsql/client`: locally it reads `APP_ENV=dev` and writes to `./local.db` (SQLite); in production it connects to Turso via `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN` env vars. Duplicate detection is done by normalising names (lowercase, strip diacritics, collapse spaces).
+**WhatsApp captcha** — `src/components/WhatsAppLink.jsx` exports `WhatsAppLink` (default) and `CaptchaModal` (named). Any `<WhatsAppLink>` shows a math captcha before opening the WhatsApp URL. `src/components/MarkdownContent.jsx` renders Markdown HTML with the `.markdown-content` class and intercepts clicks on `wa.me`/`whatsapp.com` links inside content to show the same modal. Use `MarkdownContent` (not raw `dangerouslySetInnerHTML`) for all Markdown rendering.
+
+**Registration system** — `/register/:eventId` is a form page (`src/pages/Registration.jsx`) with an inline math captcha, an attendees field (1–10), and session selection. It is backed by `netlify/functions/register.mjs`. Event configs (title, sessions, SEO) live in `src/config/registrationEvents.js`. The function uses `@libsql/client`: locally (`APP_ENV=dev`) it writes to `./local.db`; in production it uses Turso (`TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN`). Duplicate detection normalises names (lowercase, strip diacritics, collapse spaces). The function maintains an in-memory session count cache (6h TTL); an `EVENT_FREEZE_AT` map hard-codes a UTC timestamp per event after which session counts are permanently frozen. The `registrations` table schema: `id`, `event_id`, `name`, `name_normalized`, `session`, `attendees`, `created_at`.
 
 **Database migrations** — schema changes live in `scripts/migrate-db.mjs` as an ordered `MIGRATIONS` array. Applied versions are tracked in a `schema_migrations` table so each migration only runs once. `bun run migrate` runs the script; `bun run build` calls it automatically. The script is a no-op unless `RUN_MIGRATIONS=true` is set in the environment — set this in Netlify env vars before a deploy that needs schema changes, then unset it afterwards. To add a new migration, append to the `MIGRATIONS` array with a unique `version` string; never edit or reorder existing entries.
+
+**Dev API proxy** — `vite.config.js` includes a custom `dev-api` Vite plugin that intercepts `/api/register` GET and POST requests during `bun run dev`, running the same logic as the Netlify function against the local SQLite DB. No separate server needed.
+
+**Home page hardcoded content** — the regular activity schedule (`SCHEDULE` array) and the Eid registration banner (linking to `/register/eid-fitr-1447`) are both hardcoded in `src/pages/Home.jsx`. The banner text is in `translations.js` under `eidBanner`; the schedule is not localized.
 
 ## Git Workflow
 
@@ -45,7 +64,7 @@ Netlify — configured in `netlify.toml` with the following:
 
 - `bun run build` as the build command, publishing `dist/`
 - `BUN_INSTALL_CACHE_DIR` set to cache Bun packages across builds
-- `/*` → `/index.html` SPA redirect rule
+- `/api/*` → `/.netlify/functions/:splat` and `/*` → `/index.html` redirect rules
 - **Production builds** only trigger when files under `src/`, `netlify/`, `public/`, `package.json`, `bun.lockb`, or `netlify.toml` change — doc-only commits are skipped
 - **Branch deploys** (e.g. `dev`) and **deploy previews** (PRs) are disabled to save build credits
 
