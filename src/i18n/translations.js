@@ -59,6 +59,8 @@ export const translations = {
       committee: "Committee",
       schedule: "Regular Activities",
       mapTitle: "Our Location",
+      socialMedia: "Social Media",
+      followUs: "Follow us for the latest news and updates from the mosque community.",
     },
     home: {
       quickInfo: "Quick Information",
@@ -184,6 +186,8 @@ export const translations = {
       committee: "Pengurus",
       schedule: "Kegiatan Rutin",
       mapTitle: "Lokasi Kami",
+      socialMedia: "Media Sosial",
+      followUs: "Ikuti kami untuk berita dan pembaruan terkini dari komunitas masjid.",
     },
     home: {
       quickInfo: "Informasi Singkat",
@@ -309,6 +313,8 @@ export const translations = {
       committee: "委員会",
       schedule: "定期活動",
       mapTitle: "場所",
+      socialMedia: "ソーシャルメディア",
+      followUs: "モスクコミュニティの最新ニュースと更新情報をフォローしてください。",
     },
     home: {
       quickInfo: "基本情報",

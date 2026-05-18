@@ -11,6 +11,7 @@ export const CONTACT = {
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51811.27!2d136.6956!3d36.5549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff8339b84a5b3e5%3A0x68b1e28bf5d5b2cf!2sKanazawa%2C%20Ishikawa!5e0!3m2!1sen!2sjp!4v1",
   whatsappGroup: "https://chat.whatsapp.com/LdAkegfVEvGFnc5cNeiCBb?mode=gi_t",
   whatsappCommunity: "https://chat.whatsapp.com/FFyOi9ydqHg6cLNzFr0MIV",
+  instagram: "https://www.instagram.com/kmiishikawa.jp",
   imam: {
     name: "Imam Maulana Ilyas",
     phone: "+62 823-2611-2991",
