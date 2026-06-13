@@ -6,6 +6,7 @@ import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
 import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
+import Wakaf from "./pages/Wakaf";
 import Contact from "./pages/Contact";
 import Registration from "./pages/Registration";
 const router = createBrowserRouter([
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "news/:slug", element: <NewsDetail /> },
       { path: "events", element: <Events /> },
       { path: "events/:slug", element: <EventDetail /> },
+      { path: "wakaf", element: <Wakaf /> },
       { path: "contact", element: <Contact /> },
       { path: "register/:eventId", element: <Registration /> },
     ],

@@ -23,6 +23,7 @@ export default function Navbar() {
     { to: "/", label: t("nav.home") },
     { to: "/news", label: t("nav.news") },
     { to: "/events", label: t("nav.events") },
+    { to: "/wakaf", label: t("nav.wakaf") },
     { to: "/contact", label: t("nav.contact") },
   ];
 
