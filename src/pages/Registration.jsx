@@ -3,16 +3,7 @@ import { useParams } from "react-router-dom";
 import { useLang } from "../contexts/LanguageContext";
 import { useSEO } from "../hooks/useSEO";
 import { REGISTRATION_EVENTS } from "../config/registrationEvents";
-
-function generateChallenge() {
-  const a = Math.floor(Math.random() * 9) + 1;
-  const b = Math.floor(Math.random() * 9) + 1;
-  const ops = [
-    { question: `${a} + ${b}`, answer: a + b },
-    { question: `${a} × ${b}`, answer: a * b },
-  ];
-  return ops[Math.floor(Math.random() * ops.length)];
-}
+import { generateChallenge } from "../utils/captcha";
 
 export default function Registration() {
   const { eventId } = useParams();
