@@ -33,7 +33,8 @@ export function slugify(title) {
 }
 
 export function parseFrontmatter(raw) {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
+  const normalized = raw.replace(/\r\n/g, '\n')
+  const match = normalized.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
   if (!match) return { frontmatter: {}, content: raw }
 
   const frontmatter = {}
