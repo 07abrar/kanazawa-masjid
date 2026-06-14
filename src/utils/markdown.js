@@ -24,16 +24,9 @@ export function formatDate(dateString, lang = 'en') {
   return `${EN_MONTHS[month - 1]} ${day}, ${year}`
 }
 
-export function slugify(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-}
-
 export function parseFrontmatter(raw) {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
+  const normalized = raw.replace(/\r\n/g, '\n')
+  const match = normalized.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
   if (!match) return { frontmatter: {}, content: raw }
 
   const frontmatter = {}
