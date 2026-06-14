@@ -70,12 +70,6 @@ export const translations = {
       locationDetail: "Kanazawa, Ishikawa Prefecture, Japan",
       contactUs: "Contact",
     },
-    eidBanner: {
-      label: "Eid ul-Adha 1447H · Wednesday, 27 May 2026",
-      title: "Register for Eid ul-Adha Prayer",
-      desc: "Eid ul-Adha has been confirmed! Secure your spot in one of three sessions (6:30, 7:30, or 8:30 AM). Registration is quick and helps us prepare the space for everyone.",
-      cta: "Register Now",
-    },
     footer: {
       tagline: "A place of worship and community for Muslims in Kanazawa.",
       quickLinks: "Quick Links",
@@ -228,12 +222,6 @@ export const translations = {
       locationDetail: "Kanazawa, Prefektur Ishikawa, Jepang",
       contactUs: "Kontak",
     },
-    eidBanner: {
-      label: "Eid ul-Adha 1447H · Rabu, 27 Mei 2026",
-      title: "Daftar Sholat Eid ul-Adha",
-      desc: "Eid ul-Adha telah dikonfirmasi! Amankan tempat Anda di salah satu dari tiga sesi (6:30, 7:30, atau 8:30 pagi). Pendaftaran cepat dan membantu kami mempersiapkan tempat.",
-      cta: "Daftar Sekarang",
-    },
     footer: {
       tagline: "Tempat ibadah dan komunitas bagi umat Muslim di Kanazawa.",
       quickLinks: "Tautan Cepat",
@@ -385,12 +373,6 @@ export const translations = {
       location: "場所",
       locationDetail: "日本、石川県金沢市",
       contactUs: "お問い合わせ",
-    },
-    eidBanner: {
-      label: "イード・アル-アドハー 1447H · 2026年5月27日（水）",
-      title: "イード・アル-アドハー礼拝に登録",
-      desc: "イード・アル-アドハーが確定しました！3つのセッション（6:30、7:30、または8:30）のいずれかにご登録ください。登録は簡単で、スペースの準備に役立ちます。",
-      cta: "今すぐ登録",
     },
     footer: {
       tagline: "金沢のムスリムのための礼拝・コミュニティの場。",
